@@ -24,7 +24,7 @@ async function rowClick(event) {
     lowestBox.dataset.user = 1;
 
     let win = calculateWin(lowestBox, rows);
-    console.log(win);
+    console.log("WIN RESULT: " + win);
 
     await computerTurn();
 
@@ -33,13 +33,62 @@ async function rowClick(event) {
 
 function calculateWin(element, rows)
 {
-    console.log("CALCULATE WIN")
-    // calculate horizontal
-    let columnIndex = element;
-    console.log(element)
+    console.log("CALCULATE WIN");
+
+    let columns = boxes[0].parentElement.parentElement.children;
+
+    let y = Array.prototype.indexOf.call(rows, element);
+    console.log("y: " + y);
+
+    // Horizontal
+    let matches = 0;
+    for (let i = 0; i < [...columns].length; i++)
+    {
+        let columnBox = [...columns][i].children[y];
+        
+        if (columnBox.dataset.user === "1")
+        {
+            matches += 1;
+        }
+        else
+        {
+            matches = 0;
+        }
+
+        if (matches == 4)
+        {
+            return true;
+        }
+    };
+    // console.log("matches horizontal: " + matches);
+    
+    // Vertical
+    matches = 0;
+    for (let i = 0; i < [...rows].length; i++)
+    {
+        let box = [...rows][i];
+        if (box.dataset.user === "1")
+        {
+            matches += 1;
+        }
+        else
+        {
+            matches = 0;
+        }
+
+        if (matches == 4)
+        {
+            return true;
+        }
+    }
+    // console.log("matches vertical: " + matches);
+
+    // Diagonal bottom left - top right
+
+    // console.log(columns);
 
 
-    return true;
+    return false;
 }
 
 // function checkDirection(element, nextElement, adjacent)
