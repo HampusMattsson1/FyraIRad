@@ -88,6 +88,7 @@ function calculateWin(element, rows)
     // console.log("matches vertical: " + matches);
 
     // Diagonal bottom left - top right
+    matches = 0;
     let xMin = 0;
     let xMax = 6;
     let yMin = 0;
@@ -96,15 +97,25 @@ function calculateWin(element, rows)
     let startX = x;
     let startY = y;
 
-    while (startX != xMin && startY != yMin)
+    while (true)
     {
-        startX -= 1;
-        startY -= 1;
-        console.log("done");
+        if (startX == xMin || startY == yMin)
+        {
+            break;
+        }
+        startX -= 1
+        startY -= 1
     }
 
     console.log("startX: " + startX);
     console.log("startY: " + startY);
+
+    // while (true)
+    // {
+    //     if ()
+
+    //     break;
+    // }
 
     
 
