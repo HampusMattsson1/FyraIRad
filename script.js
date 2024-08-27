@@ -33,18 +33,22 @@ async function rowClick(event) {
 
 function calculateWin(element, rows)
 {
-    console.log("CALCULATE WIN");
+    console.log("-- CALCULATE WIN --");
 
     let columns = boxes[0].parentElement.parentElement.children;
 
-    let y = Array.prototype.indexOf.call(rows, element);
+    let x = Array.prototype.indexOf.call(columns, rows[0].parentElement);
+    let reverseY = Array.prototype.indexOf.call(rows, element);
+    let y = Array.prototype.indexOf.call([...rows].reverse(), element);
+    console.log("x: " + x);
     console.log("y: " + y);
+    console.log("reverseY: " + reverseY);
 
     // Horizontal
     let matches = 0;
     for (let i = 0; i < [...columns].length; i++)
     {
-        let columnBox = [...columns][i].children[y];
+        let columnBox = [...columns][i].children[reverseY];
         
         if (columnBox.dataset.user === "1")
         {
@@ -84,6 +88,25 @@ function calculateWin(element, rows)
     // console.log("matches vertical: " + matches);
 
     // Diagonal bottom left - top right
+    let xMin = 0;
+    let xMax = 6;
+    let yMin = 0;
+    let yMax = 5;
+
+    let startX = x;
+    let startY = y;
+
+    while (startX != xMin && startY != yMin)
+    {
+        startX -= 1;
+        startY -= 1;
+        console.log("done");
+    }
+
+    console.log("startX: " + startX);
+    console.log("startY: " + startY);
+
+    
 
     // console.log(columns);
 
