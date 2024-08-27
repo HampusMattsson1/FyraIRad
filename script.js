@@ -6,51 +6,81 @@ const boxes = document.getElementsByClassName("box");
 });
 
 
-async function rowClick(event)
-{
+async function rowClick(event) {
     let element = event.target
     let parentDiv = element.parentElement;
 
-    let columns = parentDiv.children
-    let row = Array.prototype.indexOf.call(columns, element);
-    console.log(row);
+    let rows = parentDiv.children
+    // let column = Array.prototype.indexOf.call(rows, element);
+    // console.log(rows);
+    // console.log(column);
 
     // get and edit box at lowest point
     // console.log(columns);
-    getLowestBox(row);
+    let lowestBox = getLowestBox(rows);
+    // console.log(lowestBox);
 
-    element.style.backgroundColor = "red";
-    element.dataset.user=1;
+    lowestBox.style.backgroundColor = "red";
+    lowestBox.dataset.user = 1;
+
+    let win = calculateWin(lowestBox, rows);
+    console.log(win);
 
     await computerTurn();
 
 }
 
 
-async function computerTurn()
+function calculateWin(element, rows)
 {
+    console.log("CALCULATE WIN")
+    // calculate horizontal
+    let columnIndex = element;
+    console.log(element)
+
+
+    return true;
+}
+
+// function checkDirection(element, nextElement, adjacent)
+// {
+//     let x = 2;
+//     let y = 3;
+// }
+
+
+async function computerTurn() {
     await new Promise(r => setTimeout(r, 200));
 
-    // console.log([...boxes][0].dataset.user);
-    let possibleBoxes = [...boxes].filter((box) => box.dataset.user === undefined)
+    // console.log(boxes);
 
-    let choosenBox = possibleBoxes[Math.floor(Math.random() * possibleBoxes.length)];
+    let possibleColumns = [];
+    for (i = 0; i < [...boxes].length; i = i + 6) {
+        let box = [...boxes][i];
+        if (box.dataset.user === undefined)
+        {
+            possibleColumns.push(box);
+        }
+    }
 
-    // console.log(choosenBox);
+    let choosenColumn = possibleColumns[Math.floor(Math.random() * possibleColumns.length)];
 
-    // console.log(possibleBoxes);
+    // let column = Array.prototype.indexOf.call(boxes, choosenColumn);
 
+    let lowestBox = getLowestBox(choosenColumn.parentElement.children);
+
+    lowestBox.style.backgroundColor = "green";
+    lowestBox.dataset.user = 2;
 
     await new Promise(r => setTimeout(r, 200));
 }
 
 
-function getLowestBox(column)
-{
-    let width = 7;
-
-    let toCheck;
-    console.log(width + column);
-
-    console.log(boxes);
+function getLowestBox(rows) {
+    const reversedRows = [...rows].reverse();
+    for (let element of reversedRows) {
+        if (element.dataset.user === undefined) {
+            return element;
+        }
+    }
 }
