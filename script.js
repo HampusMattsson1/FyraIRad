@@ -26,6 +26,11 @@ async function rowClick(event) {
     let win = calculateWin(lowestBox, rows);
     console.log("WIN RESULT: " + win);
 
+    if (win)
+    {
+        document.getElementById("result").innerText = "WIN";
+    }
+
     await computerTurn();
 
 }
@@ -85,51 +90,117 @@ function calculateWin(element, rows)
             return true;
         }
     }
-    // console.log("matches vertical: " + matches);
 
     // Diagonal bottom left - top right
-    matches = 0;
     let xMin = 0;
     let xMax = 6;
     let yMin = 0;
     let yMax = 5;
 
-    let startX = x;
-    let startY = y;
+    let traverseX = x;
+    let traverseY = y;
 
     while (true)
     {
-        if (startX == xMin || startY == yMin)
+        if (traverseX === xMin || traverseY === yMin)
         {
             break;
         }
-        startX -= 1
-        startY -= 1
+        traverseX -= 1
+        traverseY -= 1
+    }
+    if (traverseX === x && traverseX !== 0)
+    {
+        traverseX--;
+    }
+    if (y === 0)
+    {
+        traverseX = x;
     }
 
-    console.log("startX: " + startX);
-    console.log("startY: " + startY);
+    // console.log("startX: " + traverseX);
+    // console.log("startY: " + traverseY);
 
-    // while (true)
-    // {
-    //     if ()
+    matches = 0;
+    while (true)
+    {
+        let column = columns[traverseX];
+        let box = [...column.children].reverse()[traverseY];
+        console.log(box);
 
-    //     break;
-    // }
+        if (box.dataset.user === "1")
+        {
+            matches += 1;
+        }
+        else
+        {
+            matches = 0;
+        }
 
-    
+        if (matches == 4)
+        {
+            return true;
+        }
 
-    // console.log(columns);
+        if (traverseX === xMax || traverseY === yMax)
+        {
+            break;
+        }
 
+        traverseX++;
+        traverseY++;
+    }
+
+
+    // Diagonal top left - bottom right
+    traverseX = x;
+    traverseY = y;
+
+    while (true)
+    {
+        if (traverseX === xMin || traverseY === yMax)
+        {
+            break;
+        }
+        traverseX -= 1
+        traverseY += 1
+    }
+
+    console.log("startX: " + traverseX);
+    console.log("startY: " + traverseY);
+
+    matches = 0;
+    while (true)
+    {
+        let column = columns[traverseX];
+        let box = [...column.children].reverse()[traverseY];
+        console.log(box);
+
+        if (box.dataset.user === "1")
+        {
+            matches += 1;
+        }
+        else
+        {
+            matches = 0;
+        }
+
+        if (matches == 4)
+        {
+            return true;
+        }
+
+        traverseX++;
+
+        if (traverseX === xMin || traverseY === yMin)
+        {
+            break;
+        }
+        traverseY--;
+    }
 
     return false;
 }
-
-// function checkDirection(element, nextElement, adjacent)
-// {
-//     let x = 2;
-//     let y = 3;
-// }
 
 
 async function computerTurn() {
